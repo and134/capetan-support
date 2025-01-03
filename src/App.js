@@ -3,6 +3,11 @@ import axios from 'axios';
 import ClientsForm from './components/ClientsForm';
 import SkippersForm from './components/SkipperForm';
 import PortsForm from './components/PortsForm';
+import EventsForm from './components/EventsForm';
+import TicketsForm from './components/TicketsForm';
+import EventSkippersForm from './components/EventSkippersForm';
+import SkipperAvailabilityForm from './components/SkipperAvailabilityForm';
+import RestaurantRecommendationsForm from './components/RestaurantRecommendationsForm';
 
 function App() {
   useEffect(() => {
@@ -17,7 +22,11 @@ function App() {
       <ClientsForm />
       <SkippersForm />
       <PortsForm />
-      
+      <EventsForm />
+      <TicketsForm />
+      <EventSkippersForm />
+      <SkipperAvailabilityForm />
+      <RestaurantRecommendationsForm />
     </div>
   );
 }

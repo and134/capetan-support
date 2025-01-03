@@ -30,6 +30,14 @@ try {
 
 
 const clientsRoutes = require('./routes/clients');
+const skippersRoutes = require('./routes/skippers');
+const portsRoutes = require('./routes/ports');
+
+
 app.use('/api/clients', clientsRoutes);
+app.use('/api/skippers', skippersRoutes);
+app.use('/api/ports', portsRoutes);
+
+
 
   

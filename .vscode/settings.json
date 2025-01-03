@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 1409,
+            "driver": "PostgreSQL",
+            "name": "In_oras",
+            "database": "in_oras",
+            "username": "in_oras"
+        }
+    ]
+}

@@ -1,33 +1,31 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import WelcomeScreen from './components/WelcomeScreen';
 import ClientsForm from './components/ClientsForm';
-import SkippersForm from './components/SkipperForm';
-import PortsForm from './components/PortsForm';
+import ClientsList from './components/ClientsList';
 import EventsForm from './components/EventsForm';
-import TicketsForm from './components/TicketsForm';
-import EventSkippersForm from './components/EventSkippersForm';
-import SkipperAvailabilityForm from './components/SkipperAvailabilityForm';
-import RestaurantRecommendationsForm from './components/RestaurantRecommendationsForm';
+import SkippersForm from './components/SkipperForm';
 
 function App() {
-  useEffect(() => {
-    axios.get('/api/test')
-      .then((response) => console.log(response.data))
-      .catch((error) => console.error(error));
-  }, []);
-
   return (
-    <div>
-      <h1>Nautical Events Management</h1>
-      <ClientsForm />
-      <SkippersForm />
-      <PortsForm />
-      <EventsForm />
-      <TicketsForm />
-      <EventSkippersForm />
-      <SkipperAvailabilityForm />
-      <RestaurantRecommendationsForm />
-    </div>
+    <Router>
+      <div>
+        <nav style={{ padding: '10px', borderBottom: '1px solid #ccc' }}>
+          <Link to="/" style={{ marginRight: '10px' }}>Home</Link>
+          <Link to="/clients" style={{ marginRight: '10px' }}>Clients</Link>
+          <Link to="/events" style={{ marginRight: '10px' }}>Events</Link>
+          <Link to="/skippers">Skippers</Link>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<WelcomeScreen />} />
+          <Route path="/clients" element={<ClientsList />} />
+          <Route path="/clients/new" element={<ClientsForm />} />
+          <Route path="/events" element={<EventsForm />} />
+          <Route path="/skippers" element={<SkippersForm />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

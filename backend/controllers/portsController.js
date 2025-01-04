@@ -2,8 +2,8 @@ const portsModel = require('../models/portsModel');
 
 const getPorts = async (req, res) => {
   try {
-    const ports = await portsModel.getAllPorts();
-    res.status(200).json(ports);
+   const ports = await portsModel.getAllPorts();
+   res.status(200).json(ports);
   } catch (err) {
     console.error('Error fetching ports:', err);
     res.status(500).json({ error: 'Failed to fetch ports' });

@@ -1,8 +1,8 @@
 const pool = require('../db/db');
 
 const getAllPorts = async () => {
-  const result = await pool.query('SELECT * FROM Ports');
-  return result.rows;
+    const result = await pool.query('SELECT * FROM Ports');
+    return result.rows;
 };
 
 const addPort = async (portData) => {

@@ -5,6 +5,7 @@ const getAllClients = async () => {
   return result.rows;
 };
 
+// TODO: Validate data before inserting into the database
 const addClient = async (clientData) => {
   const { full_name, date_of_birth, card_information, interests, email_address, phone_number } = clientData;
   const result = await pool.query(
@@ -15,4 +16,9 @@ const addClient = async (clientData) => {
   return result.rows[0];
 };
 
-module.exports = { getAllClients, addClient };
+const getClientByName = async (name, page, per_page) => {
+  const result = await pool.query('SELECT * FROM Clients WHERE full_name ILIKE $1 OFFSET ? LIMIT ?', [`%${name}`, (page - 1) * per_page, per_page]);
+  return result.rows;
+}
+
+module.exports = { getAllClients, addClient, getClientByName };

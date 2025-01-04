@@ -6,14 +6,15 @@ const getAllEvents = async () => {
 };
 
 const addEvent = async (eventData) => {
-  const { number_of_boats, number_of_places, departure_port_id, starting_date } = eventData;
+  const { event_name, number_of_boats, number_of_places, departure_port_id, starting_date } = eventData;
 
   const result = await pool.query(
-    `INSERT INTO Nautical_Events (number_of_boats, number_of_places, departure_port_id, starting_date)
-     VALUES ($1, $2, $3, $4) RETURNING *`,
-    [number_of_boats, number_of_places, departure_port_id, starting_date]
+    `INSERT INTO Nautical_Events (event_name, number_of_boats, number_of_places, departure_port_id, starting_date)
+     VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+    [event_name, number_of_boats, number_of_places, departure_port_id, starting_date]
   );
   return result.rows[0];
 };
+
 
 module.exports = { getAllEvents, addEvent };

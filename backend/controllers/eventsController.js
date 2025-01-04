@@ -12,8 +12,13 @@ const getEvents = async (req, res) => {
 
 const addEvent = async (req, res) => {
   try {
-    const eventData = req.body;
-    const newEvent = await eventsModel.addEvent(eventData);
+    const { event_name, number_of_boats, number_of_places, departure_port_id, starting_date } = req.body;
+
+    if (!event_name || !number_of_boats || !number_of_places || !departure_port_id || !starting_date) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    const newEvent = await eventsModel.addEvent(req.body);
     res.status(201).json(newEvent);
   } catch (err) {
     console.error('Error adding event:', err);

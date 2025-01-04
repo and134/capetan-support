@@ -5,10 +5,11 @@ import { getPorts } from '../api/ports';
 function EventsForm() {
   const [ports, setPorts] = useState([]);
   const [event, setEvent] = useState({
-    number_of_boats: '',
-    number_of_places: '',
-    departure_port_id: '',
-    starting_date: '',
+    event_name: '',
+  number_of_boats: '',
+  number_of_places: '',
+  departure_port_id: '',
+  starting_date: ''
   });
 
   useEffect(() => {
@@ -34,6 +35,7 @@ function EventsForm() {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Add Event</h2>
+      <input type="text" name="event_name" placeholder="Event Name" onChange={handleChange} required />
       <input type="number" name="number_of_boats" placeholder="Number of Boats" onChange={handleChange} required />
       <input type="number" name="number_of_places" placeholder="Number of Places" onChange={handleChange} required />
       <select name="departure_port_id" onChange={handleChange} required>

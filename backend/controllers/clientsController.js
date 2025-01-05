@@ -17,7 +17,7 @@ const addClient = async (req, res) => {
     res.status(201).json(newClient);
   } catch (err) {
     console.error('Error adding client:', err);
-    res.status(500).json({ error: 'Failed to add client' });
+    res.status(500).json({ error: err.message });
   }
 };
 

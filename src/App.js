@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import WelcomeScreen from './components/WelcomeScreen';
-import ClientsForm from './components/ClientsForm';
+import ClientsForm, { EditClientForm} from './components/ClientsForm';
 import ClientsList from './components/ClientsList';
 import EventsForm from './components/EventsForm';
 import SkippersForm from './components/SkipperForm';
@@ -16,6 +16,7 @@ function App() {
         <Route path="/" element={<WelcomeScreen />} />
         <Route path="/clients" element={<ClientsList />} />
         <Route path="/clients/new" element={<ClientsForm />} />
+        <Route path="/clients/:clientId/edit" element={<EditClientForm />} />
         <Route path="/events" element={<EventsList />} />
         <Route path="/events/new" element={<EventsForm />} />
         <Route path="/skippers" element={<SkippersForm />} />

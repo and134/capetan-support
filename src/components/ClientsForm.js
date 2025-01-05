@@ -1,97 +1,95 @@
-import React, { useState } from 'react';
-import { addClient } from '../api/clients';
+import React, { useEffect, useState } from 'react';
+import { addClient, loadClientById, updateClient } from '../api/clients';
+import { useNavigate, useParams } from 'react-router-dom';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import { Form, Button } from 'react-bootstrap';
 
-function ClientsForm() {
-  const [client, setClient] = useState({
+function defaultClient() {
+  return {
     full_name: '',
     date_of_birth: '',
     card_information: '',
     interests: '',
     email_address: '',
     phone_number: '',
-  });
+  }
+}
 
-  const handleChange = (e) => {
-    setClient({
-      ...client,
-      [e.target.name]: e.target.value,
-    });
-  };
+function FInput({ name, label, type, validations, isRequired, placeholder, ...other }) {
+  const v2 = isRequired ? { required: { value: true, message: `${label} is required` }, ...validations } : validations;
+  const form = useFormContext();  
+  return <Form.Group className="mb-3" controlId={name}>
+    <Form.Label>{label}</Form.Label>
+    <Form.Control
+      {...form.register(name, v2)}
+      type={type}
+      placeholder={placeholder || ''}
+      {...other}
+    />
+    {form.formState.errors[name] &&
+      <Form.Text className="text-danger">
+        {form.formState.errors[name].message}
+      </Form.Text>}
+  </Form.Group>
+}
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await addClient(client);
-      alert('Client added successfully!');
-      setClient({
-        full_name: '',
-        date_of_birth: '',
-        card_information: '',
-        interests: '',
-        email_address: '',
-        phone_number: '',
-      });
-    } catch (error) {
-      console.error('Error adding client:', error);
-      alert('Failed to add client. Please try again.');
+export function EditClientForm() {
+  const {clientId} = useParams({})
+  const [client, setClient] = useState(null);
+  useEffect(() => {
+    const fetchClient = async () => {
+      const data = await loadClientById(clientId);
+      setClient(data);
+    };
+    fetchClient();
+  }, [clientId]);
+  if (!client) {
+    return <div>Loading...</div>
+  }
+  return <ClientsForm client={client} />
+}
+
+function ClientsForm({client}) {  
+  const data = client || defaultClient()
+  const navigate = useNavigate()
+  data.date_of_birth = data.date_of_birth ? data.date_of_birth.split('T')[0] : null;
+  console.log("Clients form", data)
+  
+  const form = useForm({ defaultValues: data });
+
+  const onSubmit = async (data) => {    
+    const res = await (client ? updateClient(client.client_id, {...client, ...data}) : addClient(data));
+    console.log("Response", res)
+    navigate(`/clients`);
+  }
+
+  const validateUserAge = (value, other) => {
+    const today = new Date();
+    const birthDate = new Date(value);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
     }
-  };
+    if (age < 18) {
+      return 'User must be at least 18 years old';
+    }
+    return null
+  }
 
-  return (
-    <form onSubmit={handleSubmit}>
+  return <FormProvider   {...form}>
+    <Form onSubmit={form.handleSubmit(onSubmit)}>
       <h2>Add Client</h2>
-
-      <input
-        type="text"
-        name="full_name"
-        placeholder="Full Name"
-        value={client.full_name}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="date"
-        name="date_of_birth"
-        placeholder="Date of Birth"
-        value={client.date_of_birth}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="card_information"
-        placeholder="Card Information"
-        value={client.card_information}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="interests"
-        placeholder="Interests"
-        value={client.interests}
-        onChange={handleChange}
-      />
-      <input
-        type="email"
-        name="email_address"
-        placeholder="Email Address"
-        value={client.email_address}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="phone_number"
-        placeholder="Phone Number"
-        value={client.phone_number}
-        onChange={handleChange}
-        required
-      />
-
-      <button type="submit">Add Client</button>
-    </form>
-  );
+      <FInput name="full_name" label="Full Name" type="text" isRequired />
+      <FInput name="date_of_birth" label="Date of Birth" type="date" isRequired validations={{valueAsDate: true, validate: validateUserAge}} />
+      <FInput name="card_information" label="Card Information" type="number" isRequired validations={{minLength: {value: 16, message: "Please enter valid card number"}}} />
+      <FInput name="interests" label="Interests" type="text" />
+      <FInput name="email_address" label="Email Address" type="email" isRequired />
+      <FInput name="phone_number" label="Phone Number" type="text" isRequired />
+      <Button variant="primary" type="submit" onClick={form.handleSubmit(onSubmit)}>
+        Submit
+      </Button>
+    </Form></FormProvider>
 }
 
 export default ClientsForm;

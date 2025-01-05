@@ -49,7 +49,8 @@ function ClientsList() {
                   <strong>Phone:</strong> {client.phone_number}
                 </Card.Text>
                 <Button variant="danger" onClick={() => handleDelete(client.client_id)}>Delete</Button>
-                <Button variant="primary" className="ms-2" onClick={() => handleEdit(client.client_id)}>Edit</Button>
+                {/* <Button variant="primary" className="ms-2" onClick={() => handleEdit(client.client_id)}>Edit</Button> */}
+                <Link to={`/clients/${client.client_id}/edit`} variant="primary" className="ms-2">Edit</Link>
               </Card.Body>
             </Card>
           </Col>

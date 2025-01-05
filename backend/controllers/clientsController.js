@@ -10,6 +10,16 @@ const getClients = async (req, res) => {
   }
 };
 
+const getClientById = async (req, res) => {
+  try {
+    const client = await clientsModel.getClientById(req.params.id);
+    res.status(200).json(client);
+  } catch (err) {
+    console.error('Error fetching clients:', err);
+    res.status(500).json({ error: 'Failed to fetch clients' });
+  }
+};
+
 const addClient = async (req, res) => {
   try {
     const clientData = req.body;
@@ -51,4 +61,4 @@ const updateClient = async (req, res) => {
 };
 
 
-module.exports = { getClients, addClient, deleteClient, updateClient};
+module.exports = { getClients, getClientById, addClient, deleteClient, updateClient};

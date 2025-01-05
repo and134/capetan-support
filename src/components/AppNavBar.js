@@ -1,12 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import Logo from '/Users/andreighiurca/Desktop/CapetanSupport/capetan-support/src/Badge.png';
 
 function AppNavbar() {
   return (
     <Navbar expand="lg" bg = "dark" data-bs-theme="dark" className="bg-body-tertiary" >
       <Container>
-        <Navbar.Brand as={Link} to="/"> Capetan Skippers Elite </Navbar.Brand>
+        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+          <img
+            src={Logo}
+            alt="Capetan Skippers Logo"
+            width="80"
+            height="80"
+            className="me-2"
+          /> Capetan Skippers Elite </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

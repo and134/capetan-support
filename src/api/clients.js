@@ -12,6 +12,11 @@ export const addClient = async (client) => {
   return response.data;
 };
 
+export const loadClientById = async (id) => {
+  const response = await axios.get(`${BASE_URL}/${id}`);
+  return response.data;
+};
+
 export const deleteClient = async (id) => {
   const response = await axios.delete(`${BASE_URL}/${id}`);
   return response.data;

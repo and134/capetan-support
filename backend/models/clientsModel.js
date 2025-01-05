@@ -5,38 +5,13 @@ const getAllClients = async () => {
   return result.rows;
 };
 
-const validateClientData = (clientData) => {
-  const { full_name, date_of_birth, card_information, interests, email_address, phone_number } = clientData;
-  
-  if (!full_name || full_name.length < 6 || !full_name.includes(' ')) {
-    throw new Error('Full Name must be at least 6 characters long and contain a space.');
-  }
-
-  const dob = new Date(date_of_birth);
-  if (isNaN(dob.getTime()) || dob >= new Date()) {
-    throw new Error('Date of Birth must be a valid past date.');
-  }
-
-  if (!/^\d{16}$/.test(card_information)) {
-    throw new Error('Card Information must be a 16-digit number.');
-  }
-
-  if (!interests || interests.length < 3) {
-    throw new Error('Interests must be at least 3 characters long.');
-  }
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(email_address)) {
-    throw new Error('Invalid Email Address.');
-  }
-
-  if (!/^\d{10}$/.test(phone_number)) {
-    throw new Error('Phone Number must be a 10-digit number.');
-  }
-};
+const getClientById = async (id) => {
+  const result = await pool.query('SELECT * FROM Clients WHERE client_id = $1', [id]);
+  return result.rows[0];
+}
 
 const addClient = async (clientData) => {
-  const { full_name, date_of_birth, card_information, interests, email_address, phone_number } = clientData;
-  validateClientData(clientData);
+  const { full_name, date_of_birth, card_information, interests, email_address, phone_number } = clientData;  
   const result = await pool.query(
     `INSERT INTO Clients (full_name, date_of_birth, card_information, interests, email_address, phone_number)
      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
@@ -51,8 +26,7 @@ const getClientByName = async (name, page, per_page) => {
 }
 
 
-const addClientWithTransaction = async (clientData) => {
-  validateClientData(clientData);
+const addClientWithTransaction = async (clientData) => {  
   const clientQuery = `INSERT INTO Clients (full_name, date_of_birth, card_information, interests, email_address, phone_number)
                        VALUES ($1, $2, $3, $4, $5, $6) RETURNING client_id`;
   const logQuery = `INSERT INTO Logs (client_id, action) VALUES ($1, $2)`;
@@ -105,12 +79,11 @@ const deleteClientById = async (id) => {
 
 
 const updateClientById = async (id, clientData) => {
-  const { full_name, email_address, phone_number } = clientData;
-  validateClientData(clientData);
+  const { full_name, email_address, phone_number } = clientData;  
   await pool.query(
     `UPDATE Clients SET full_name = $1, email_address = $2, phone_number = $3 WHERE client_id = $4`,
     [full_name, email_address, phone_number, id]
   );
 };
-module.exports = { getAllClients, addClient, getClientByName , addClientWithTransaction, deleteClientById, updateClientById };
+module.exports = { getAllClients, getClientById, addClient, getClientByName , addClientWithTransaction, deleteClientById, updateClientById };
 

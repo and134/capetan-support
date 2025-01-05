@@ -17,13 +17,13 @@ function WelcomeScreen() {
             </Link>
           </Col>
           <Col>
-            <Link to="/events">
-              <Button variant="info" size="lg" className="w-100"> View Events </Button>
+            <Link to="/events/new">
+              <Button variant="info" size="lg" className="w-100"> Add Events </Button>
             </Link>
           </Col>
           <Col>
-            <Link to="/skippers">
-              <Button variant="info" size="lg" className="w-100"> Add Skippers </Button>
+            <Link to="/ports/new">
+              <Button variant="info" size="lg" className="w-100"> Add Ports </Button>
             </Link>
           </Col>
         </Row>
@@ -37,6 +37,11 @@ function WelcomeScreen() {
           <Col>
             <Link to="/events">
               <Button variant="info" size="lg" className="w-100"> View Events </Button>
+            </Link>
+          </Col>
+          <Col>
+            <Link to="/ports">
+              <Button variant="info" size="lg" className="w-100"> View Ports </Button>
             </Link>
           </Col>
         </Row>

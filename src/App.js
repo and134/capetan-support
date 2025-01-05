@@ -7,6 +7,8 @@ import EventsForm from './components/EventsForm';
 import SkippersForm from './components/SkipperForm';
 import EventsList from './components/EventsList';
 import AppNavbar from './components/AppNavBar';
+import PortsList from './components/PortsList';
+import PortsForm from './components/PortsForm';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/events" element={<EventsList />} />
         <Route path="/events/new" element={<EventsForm />} />
         <Route path="/skippers" element={<SkippersForm />} />
+        <Route path="/ports" element={<PortsList />} />
+        <Route path="/ports/new" element={<PortsForm />} />
       </Routes>
     </Router>
 

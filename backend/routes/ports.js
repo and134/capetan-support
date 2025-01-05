@@ -4,5 +4,5 @@ const portsController = require('../controllers/portsController');
 
 router.get('/', portsController.getPorts);
 router.post('/', portsController.addPort);
-
+router.delete('/:id', portsController.deletePort);
 module.exports = router;

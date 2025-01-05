@@ -21,11 +21,13 @@ function AppNavbar() {
             <NavDropdown title="Add Logs" id="add-logs-dropdown">
               <NavDropdown.Item as={Link} to="/clients/new"> New Client </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/events/new"> New Event </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/ports/new"> New Port </NavDropdown.Item>
             </NavDropdown>
 
             <NavDropdown title="View Logs" id="view-logs-dropdown">
               <NavDropdown.Item as={Link} to="/clients"> Clients List </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/events"> Events List </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/ports"> Ports List </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

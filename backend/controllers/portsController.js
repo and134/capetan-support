@@ -22,4 +22,15 @@ const addPort = async (req, res) => {
   }
 };
 
-module.exports = { getPorts, addPort };
+const deletePort = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await portsModel.deletePort(id);
+    res.status(204).end();
+  } catch (err) {
+    console.error('Error deleting port:', err);
+    res.status(500).json({ error: 'Failed to delete port', details: err.message });
+  }
+}
+
+module.exports = { getPorts, addPort, deletePort};

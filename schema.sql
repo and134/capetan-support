@@ -68,3 +68,15 @@ CREATE TABLE Restaurant_Recommendations (
 
 ALTER TABLE nautical_events
 ADD COLUMN event_name VARCHAR(255);
+
+ALTER TABLE Tickets
+DROP CONSTRAINT tickets_client_id_fkey,
+ADD CONSTRAINT tickets_client_id_fkey
+FOREIGN KEY (client_id) REFERENCES Clients(client_id) ON DELETE CASCADE;
+
+CREATE TABLE ClientDetails (
+    client_id INT PRIMARY KEY,
+    trainer_evaluation VARCHAR(255),
+    skipper_material BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (client_id) REFERENCES Clients(client_id) ON DELETE CASCADE
+);

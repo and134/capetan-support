@@ -60,20 +60,17 @@ const addClientWithTransaction = async (clientData) => {
 const deleteClientById = async (id) => {
   const client = await pool.connect();
   try {
-    await client.query('BEGIN'); // Start transaction
-
-    // Delete related records in Tickets
+    await client.query('BEGIN'); 
     await client.query('DELETE FROM Tickets WHERE client_id = $1', [id]);
-
-    // Delete client
+    await client.query('DELETE FROM Logs WHERE client_id = $1', [id]);
     await client.query('DELETE FROM Clients WHERE client_id = $1', [id]);
 
-    await client.query('COMMIT'); // Commit transaction
+    await client.query('COMMIT'); 
   } catch (error) {
-    await client.query('ROLLBACK'); // Rollback transaction on error
+    await client.query('ROLLBACK'); 
     throw error;
   } finally {
-    client.release(); // Release the client back to the pool
+    client.release();
   }
 };
 

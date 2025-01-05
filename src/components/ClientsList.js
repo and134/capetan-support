@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getClients, deleteClient, updateClient} from '../api/clients';
+import { getClients, deleteClient, updateClient } from '../api/clients';
+import { Card, Button, Container, Row, Col } from 'react-bootstrap';
 
 function ClientsList() {
   const [clients, setClients] = useState([]);
@@ -24,7 +25,7 @@ function ClientsList() {
     const fullName = prompt('Enter new full name:');
     const emailAddress = prompt('Enter new email address:');
     const phoneNumber = prompt('Enter new phone number:');
-  
+
     if (fullName && emailAddress && phoneNumber) {
       await updateClient(id, { full_name: fullName, email_address: emailAddress, phone_number: phoneNumber });
       const updatedClients = clients.map(client =>
@@ -33,40 +34,31 @@ function ClientsList() {
       setClients(updatedClients);
     }
   };
+
   return (
-    <div>
-      <h2>Clients List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Client ID</th>
-            <th>Full Name</th>
-            <th>Email Address</th>
-            <th>Phone Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clients.map(client => (
-            <tr key={client.client_id}>
-              <td>{client.client_id}</td>
-              <td>{client.full_name}</td>
-              <td>{client.email_address}</td>
-              <td>{client.phone_number}</td>
-              <td>
-                <button onClick={() => handleDelete(client.client_id)}>Delete</button>
-              </td>
-              <td>
-                <button onClick={() => handleEdit(client.client_id)}>Edit</button>
-              </td>
-            </tr>
-            
-          ))}
-        </tbody>
-      </table>
+    <Container>
+      <h2 className="mt-4 mb-4">Clients List</h2>
+      <Row>
+        {clients.map(client => (
+          <Col key={client.client_id} md={4} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{client.full_name}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">{client.email_address}</Card.Subtitle>
+                <Card.Text>
+                  <strong>Phone:</strong> {client.phone_number}
+                </Card.Text>
+                <Button variant="danger" onClick={() => handleDelete(client.client_id)}>Delete</Button>
+                <Button variant="primary" className="ms-2" onClick={() => handleEdit(client.client_id)}>Edit</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
       <Link to="/">
-        <button style={{ marginTop: '20px' }}>Return to Home</button>
+        <Button variant="secondary" className="mt-4">Return to Home</Button>
       </Link>
-    </div>
+    </Container>
   );
 }
 
